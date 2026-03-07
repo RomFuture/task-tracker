@@ -120,3 +120,4 @@ task-tracker/
 ```
 ### Stack
 > Python 3, PostgreSQL, psycopg2, python-dotenv
+Idea of this project is from - https://roadmap.sh/projects/task-tracker
