@@ -1,33 +1,36 @@
 # Task Tracker (CLI)
 
-A command-line task tracker that stores tasks in **PostgreSQL**. Add, list, update, delete, and change task status from the terminal.
+A command-line tool for managing tasks. Data is stored in PostgreSQL. Add, delete, update tasks and change their status — all from the terminal.
 
-## Features
+<img width="575" height="325" alt="image" src="https://github.com/user-attachments/assets/dcd24a49-8d6e-4357-b528-1f8074083eff" />
 
-- **Add** tasks with a description
-- **List** all tasks or filter by status (`todo`, `in_progress`, `done`)
-- **Update** a task’s description
-- **Delete** a task
-- **Mark** a task as in progress or done
-- Errors shown in the menu above the command prompt
-- Data stored in PostgreSQL with migrations
+#### What it does
 
-## Tech stack
 
-- **Python 3**
-- **PostgreSQL**
-- **psycopg2** (DB driver), **python-dotenv** (config)
+<details>
+<summary>Click to expand app features</summary>
 
-## Prerequisites
+<br>
 
-- **Python 3**
-- **PostgreSQL** installed and running (server must be started, e.g. `sudo systemctl start postgresql`)
++ Add tasks with a description
++ List all tasks or filter by status (`todo`, `in_progress`, `done`)
++ Update task description
++ Delete tasks
++ Change status to `in_progress` or `done`
++ Errors are shown in the menu above the input prompt
++ Data lives in PostgreSQL, schema is created via migrations
+</details>
 
-## Quick setup (recommended)
 
-1. **Clone the repo**
+#### Prerequisites
+> [!IMPORTANT]  
+> **Python 3** and **PostgreSQL** must be installed (and PostgreSQL must be running when you use the app).
+
+## Quick start
+
+1. **Clone**
    ```bash
-   git clone <your-repo-url>
+   git clone https://github.com/RomFuture/task-tracker
    cd task-tracker
    ```
 
@@ -35,29 +38,29 @@ A command-line task tracker that stores tasks in **PostgreSQL**. Add, list, upda
    ```bash
    ./scripts/setup.sh
    ```
-   This will:
-   - Create a virtual environment (`venv`)
-   - Install Python dependencies from `requirements.txt`
-   - Create the `task_tracker` database (if PostgreSQL is available)
-   - Run the migration to create the `tasks` table
-   - Copy `.env.example` to `.env` if `.env` doesn’t exist
+   The script will create a `venv`, install dependencies, create the `task_tracker` database (if PostgreSQL is available), run the migration, and copy `.env.example` → `.env`.
 
-3. **Edit `.env`** with your PostgreSQL credentials:
-   - `DB_USER` – your PostgreSQL username (e.g. `postgres` or a user you created)
-   - `DB_PASSWORD` – that user’s password  
-   Use the same credentials you use to connect with `psql`.
+3. **Fill in your credentials in `.env`**
+   - `DB_USER` — your PostgreSQL username (e.g. `postgres`)
+   - `DB_PASSWORD` — that user’s password (same as for `psql`)
 
-4. **Activate the virtual environment and run the app**
+4. **Start PostgreSQL and open SQL** (when needed)
    ```bash
-   source venv/bin/activate   # Linux/macOS
+   ./scripts/start_db.sh
+   ```
+   This starts the PostgreSQL service and opens `psql -d task_tracker`. Use this if the server was stopped or you want to run SQL by hand.
+
+5. **Run the app**
+   ```bash
+   source venv/bin/activate
    python main.py
    ```
 
 ## Manual setup
 
-If you prefer not to use the script:
+If you prefer not to use the setup script:
 
-1. **Create and activate a virtual environment**
+1. **Create and activate a venv**
    ```bash
    python3 -m venv venv
    source venv/bin/activate
@@ -74,50 +77,45 @@ If you prefer not to use the script:
    psql -d task_tracker -f migrations/001_create_tasks_table.sql
    ```
 
-4. **Configure environment**
-   - Copy `.env.example` to `.env`
-   - Set `DB_HOST`, `DB_NAME`, `DB_USER`, `DB_PASSWORD`, `DB_PORT` in `.env`
+4. **Configure environment**  
+   Copy `.env.example` to `.env` and set `DB_HOST`, `DB_NAME`, `DB_USER`, `DB_PASSWORD`, `DB_PORT`.
 
-5. **Run the app**
+5. **Start PostgreSQL** (if needed): `./scripts/start_db.sh`
+
+6. **Run the app**
    ```bash
    python main.py
    ```
+## Commands
 
-## Usage
-
-Once the app is running, use these commands at the prompt:
-
-| Command | Description |
-|--------|-------------|
-| `add <description>` | Add a new task |
+| Command | What it does |
+|--------|---------------|
+| `add <description>` | Add a task |
 | `list` | Show all tasks |
 | `list-status <status>` | Show tasks with status `todo`, `in_progress`, or `done` |
-| `update <id> <description>` | Change a task’s description |
-| `delete <id>` | Remove a task |
-| `mark-in-progress <id>` | Set task status to in progress |
-| `mark-done <id>` | Set task status to done |
-| `exit` | Quit the app |
+| `update <id> <description>` | Change task description |
+| `delete <id>` | Delete a task |
+| `mark-in-progress <id>` | Set status to in progress |
+| `mark-done <id>` | Set status to done |
+| `exit` | Quit |
 
 ## Project structure
-
-```
+```text
 task-tracker/
 ├── main.py              # CLI entry point and menu
-├── requirements.txt     # Python dependencies
-├── .env.example         # Template for DB config (copy to .env)
+├── requirements.txt
+├── .env.example         # Config template (copy to .env)
 ├── services/
 │   ├── db.py            # Database connection
 │   ├── task_service.py  # Task operations (add, list, update, etc.)
 │   └── view.py          # Format and print task list
 ├── migrations/
-│   └── 001_create_tasks_table.sql   # Creates tasks table
+│   └── 001_create_tasks_table.sql
 ├── scripts/
-│   └── setup.sh         # Setup script (venv, DB, migration, .env)
+│   ├── setup.sh         # Venv, deps, DB, migration, .env
+│   └── start_db.sh      # Start PostgreSQL and open psql -d task_tracker
 └── docs/
-    └── SETUP_SCRIPT_GUIDE.md    # How the setup script works
+    └── SETUP_SCRIPT_GUIDE.md
 ```
-
-## Notes
-
-- **`.env`** is not committed (it’s in `.gitignore`). Each developer uses their own PostgreSQL user and password in `.env`.
-- For more detail on the setup script, see [docs/SETUP_SCRIPT_GUIDE.md](docs/SETUP_SCRIPT_GUIDE.md).
+### Stack
+> Python 3, PostgreSQL, psycopg2, python-dotenv
