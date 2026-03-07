@@ -2,7 +2,8 @@
 
 A command-line tool for managing tasks. Data is stored in PostgreSQL. Add, delete, update tasks and change their status — all from the terminal.
 
-<img width="575" height="325" alt="image" src="https://github.com/user-attachments/assets/dcd24a49-8d6e-4357-b528-1f8074083eff" />
+<img width="737" height="302" alt="image" src="https://github.com/user-attachments/assets/5e420fa0-d485-46da-b0ba-da863e4dfa37" />
+
 
 #### What it does
 
